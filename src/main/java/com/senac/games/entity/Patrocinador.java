@@ -14,7 +14,7 @@ public class Patrocinador {
     @Column(name = "patrocinador_representante_nome")
     private String representanteNome;
     @Column(name = "patrocinador_status")
-    private int status;
+    private Integer status;
 
     public int getId() {
         return id;
