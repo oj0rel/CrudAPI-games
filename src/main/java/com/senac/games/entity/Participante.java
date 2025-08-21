@@ -3,6 +3,7 @@ package com.senac.games.entity;
 import jakarta.persistence.*;
 
 import java.io.File;
+import java.util.Set;
 
 @Entity
 @Table(name = "participante")
@@ -24,6 +25,10 @@ public class Participante {
     private File fotoPerfil;
     @Column(name = "participante_status")
     private Integer status;
+
+    //para trazer a outra tabela
+    @OneToMany(mappedBy = "participante")
+    private Set<Inscricao> inscricoes;
 
     public Integer getId() {
         return id;
@@ -79,5 +84,13 @@ public class Participante {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Set<Inscricao> getInscricoes() {
+        return inscricoes;
+    }
+
+    public void setInscricoes(Set<Inscricao> inscricoes) {
+        this.inscricoes = inscricoes;
     }
 }

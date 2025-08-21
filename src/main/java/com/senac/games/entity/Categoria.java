@@ -2,6 +2,8 @@ package com.senac.games.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "categoria")
 public class Categoria {
@@ -13,6 +15,9 @@ public class Categoria {
     private String nome;
     @Column(name = "categoria_status")
     private Integer status;
+
+    @OneToMany(mappedBy = "categoria")
+    private Set<Jogo> jogos;
 
     public Integer getId() {
         return id;
@@ -36,5 +41,13 @@ public class Categoria {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Set<Jogo> getJogos() {
+        return jogos;
+    }
+
+    public void setJogos(Set<Jogo> jogos) {
+        this.jogos = jogos;
     }
 }
