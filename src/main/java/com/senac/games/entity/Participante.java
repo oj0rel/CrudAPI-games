@@ -1,5 +1,6 @@
 package com.senac.games.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.File;
@@ -26,7 +27,7 @@ public class Participante {
     @Column(name = "participante_status")
     private Integer status;
 
-    //para trazer a outra tabela
+    //para trazer a tabela Inscricao para Participante
     @OneToMany(mappedBy = "participante")
     private Set<Inscricao> inscricoes;
 
@@ -93,4 +94,5 @@ public class Participante {
     public void setInscricoes(Set<Inscricao> inscricoes) {
         this.inscricoes = inscricoes;
     }
+
 }

@@ -16,6 +16,7 @@ public class Categoria {
     @Column(name = "categoria_status")
     private Integer status;
 
+    //para trazer a tabela Jogo para Categoria
     @OneToMany(mappedBy = "categoria")
     private Set<Jogo> jogos;
 
@@ -50,4 +51,5 @@ public class Categoria {
     public void setJogos(Set<Jogo> jogos) {
         this.jogos = jogos;
     }
+
 }

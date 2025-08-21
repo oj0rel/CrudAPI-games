@@ -21,18 +21,17 @@ public class Inscricao {
     @Column(name = "inscricao_status")
     private int status;
 
-    //tentando isso agora
-    //para trazer a tabela de jogos
-    @OneToMany(mappedBy = "inscricao")
-    private Set<Jogo> jogos;
-
-
     //isso aki é para enviar a tabela Inscricao para Participante
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "participante_id", nullable = false)
     private Participante participante;
 
+    //isso aki é para enviar a tabela Inscricao para Jogo
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "jogo_id", nullable = false)
+    private Jogo jogo;
 
     public Integer getId() {
         return id;
@@ -66,11 +65,12 @@ public class Inscricao {
         this.participante = participante;
     }
 
-    public Set<Jogo> getJogos() {
-        return jogos;
+    public Jogo getJogo() {
+        return jogo;
     }
 
-    public void setJogos(Set<Jogo> jogos) {
-        this.jogos = jogos;
+    public void setJogo(Jogo jogo) {
+        this.jogo = jogo;
     }
+
 }
