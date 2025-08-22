@@ -2,6 +2,8 @@ package com.senac.games.controller;
 
 import com.senac.games.entity.Premio;
 import com.senac.games.service.PremioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/premio")
+@Tag(name = "Premio", description = "API para gerenciamento de prêmios.")
 public class PremioController {
 
     private PremioService premioService;
@@ -20,6 +23,7 @@ public class PremioController {
     }
 
     @GetMapping("/listar")
+    @Operation(summary = "Listar premios", description = "Endpoint para listar todos os prêmios.")
     public ResponseEntity <List<Premio>> listarPremios() {
         return ResponseEntity.ok(premioService.listarPremios());
     }
