@@ -1,5 +1,6 @@
 package com.senac.games.service;
 
+import com.senac.games.dto.request.ParticipanteDTOUpdateRequest;
 import org.modelmapper.ModelMapper;
 import com.senac.games.dto.request.ParticipanteDTORequest;
 import com.senac.games.dto.response.ParticipanteDTOResponse;
@@ -61,5 +62,49 @@ public class ParticipanteService {
 
         return participanteDTOResponse;
          */
+    }
+
+
+    public ParticipanteDTOResponse atualizarParticipante(Integer participanteId, ParticipanteDTORequest participanteDTORequest) {
+
+        //busca se existe o registro a ser atualizado
+        Participante participanteBuscado = this.listarParticipantePorId(participanteId);
+
+        //se encontrar o registro a ser atualizado
+        if (participanteBuscado != null) {
+
+            /*
+            copia os dados do DTO de entrada para um objeto Participante
+            que é compatível com o repository para atualizar
+             */
+            modelMapper.map(participanteDTORequest, Participante.class);
+
+            /*
+            com o objeto no formato correto "Participante", o comando save
+            salva no banco de dados o objeto atualizado
+             */
+            Participante tempResponse = participanteRepository.save(participanteBuscado);
+
+            return modelMapper.map(tempResponse, ParticipanteDTOResponse.class);
+        } else {
+            return null;
+        }
+    }
+
+    public Object atualizarParticipanteStatus(Integer participanteId, ParticipanteDTOUpdateRequest participanteDTOUpdateRequest) {
+
+        //busca se existe o registro a ser atualizado
+        Participante participanteBuscado = this.listarParticipantePorId(participanteId);
+
+        if(participanteBuscado != null) {
+            participanteBuscado.setStatus(participanteDTOUpdateRequest.getStatus());
+
+            Participante tempResponse = participanteRepository.save(participanteBuscado);
+
+            return modelMapper.map(tempResponse, ParticipanteDTOResponse.class);
+        } else {
+            return null;
+        }
+
     }
 }
