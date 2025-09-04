@@ -1,9 +1,7 @@
 package com.senac.games.controller;
 
-import com.senac.games.dto.request.ParticipanteDTORequest;
-import com.senac.games.dto.request.ParticipanteDTOUpdateRequest;
-import com.senac.games.dto.response.ParticipanteDTOResponse;
-import com.senac.games.dto.response.ParticipanteDTOUpdateResponse;
+import com.senac.games.dto.request.participante.ParticipanteDTORequest;
+import com.senac.games.dto.response.participante.ParticipanteDTOResponse;
 import com.senac.games.entity.Participante;
 import com.senac.games.service.ParticipanteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,21 +50,14 @@ public class ParticipanteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(participanteService.criarParticipante(participante));
     }
 
-    @PutMapping("/atualizar/{participanteId}")
-    @Operation(summary = "Atualizar todos os dados do participante.", description = "Endpoint para atualizar o registro de participante")
-    public ResponseEntity<ParticipanteDTOResponse> atualizarParticipante(
-            @PathVariable("participanteId") Integer participanteId, @RequestBody ParticipanteDTORequest participanteDTORequest) {
+    @PutMapping("/atualizarPorParticipanteId/{participanteId}")
+    @Operation(summary="Atualizar participantes pelo id", description="Endpoint para editar o participante pelo id")
+    public ResponseEntity<ParticipanteDTOResponse> editarParticipante(@Valid @PathVariable("participanteId") Integer participanteId,
+                                                                      @RequestBody ParticipanteDTORequest participanteDTORequest){
 
-        return ResponseEntity.ok(participanteService.atualizarParticipante(participanteId, participanteDTORequest));
-    }
+        ParticipanteDTOResponse participanteAtualizado = participanteService.atualizarParticipante(participanteId, participanteDTORequest);
+        return ResponseEntity.ok(participanteService.atualizarParticipante(participanteId,participanteDTORequest)); // 200 OK com o participante atualizada
 
-    @PatchMapping("/atualizarStatus/{participanteId}")
-    @Operation(summary = "Atualizar campo status do participante.", description = "Endpoint para atualizar status do participante.")
-    public ResponseEntity<ParticipanteDTOUpdateResponse> atualizarStatusParticipante (
-            @PathVariable("participanteId") Integer participanteId,
-            @RequestBody ParticipanteDTOUpdateRequest participanteDTOUpdateRequest
-            ) {
-        return ResponseEntity.ok(participanteService.atualizarParticipanteStatus(participanteId, participanteDTOUpdateRequest));
     }
 
 }

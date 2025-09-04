@@ -1,9 +1,8 @@
 package com.senac.games.service;
 
-import com.senac.games.dto.request.ParticipanteDTOUpdateRequest;
 import org.modelmapper.ModelMapper;
-import com.senac.games.dto.request.ParticipanteDTORequest;
-import com.senac.games.dto.response.ParticipanteDTOResponse;
+import com.senac.games.dto.request.participante.ParticipanteDTORequest;
+import com.senac.games.dto.response.participante.ParticipanteDTOResponse;
 import com.senac.games.entity.Participante;
 import com.senac.games.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class ParticipanteService {
     }
 
     //método para listar todos os participantes.
-    public List<Participante> listarParticipantes() { return this.participanteRepository.findAll(); }
+    public List<Participante> listarParticipantes() { return this.participanteRepository.listarParicipantes(); }
 
     //método para listar um participante, buscando pelo ID dele.
     public Participante listarParticipantePorId(Integer participanteId) {
@@ -41,27 +40,6 @@ public class ParticipanteService {
 
         return participanteDTOResponse;
 
-        /* nao vai mais precisar desta parte
-        //colocando o que vem do participanteDTO em participante
-        participante.setNome(participanteDTO.getNome());
-        participante.setEmail(participanteDTO.getEmail());
-        participante.setIdentificacao(participanteDTO.getIdentificacao());
-        participante.setEndereco(participanteDTO.getEndereco());
-        participante.setStatus(participanteDTO.getStatus());
-        */
-
-
-
-        /* nao vai mais precisar desta parte
-        participanteDTOResponse.setId(participanteSave.getId());
-        participanteDTOResponse.setNome(participanteSave.getNome());
-        participanteDTOResponse.setEmail(participanteSave.getEmail());
-        participanteDTOResponse.setIdentificacao(participanteSave.getIdentificacao());
-        participanteDTOResponse.setEndereco(participanteSave.getEndereco());
-        participanteDTOResponse.setStatus(participanteSave.getStatus());
-
-        return participanteDTOResponse;
-         */
     }
 
 
@@ -91,20 +69,7 @@ public class ParticipanteService {
         }
     }
 
-    public Object atualizarParticipanteStatus(Integer participanteId, ParticipanteDTOUpdateRequest participanteDTOUpdateRequest) {
-
-        //busca se existe o registro a ser atualizado
-        Participante participanteBuscado = this.listarParticipantePorId(participanteId);
-
-        if(participanteBuscado != null) {
-            participanteBuscado.setStatus(participanteDTOUpdateRequest.getStatus());
-
-            Participante tempResponse = participanteRepository.save(participanteBuscado);
-
-            return modelMapper.map(tempResponse, ParticipanteDTOResponse.class);
-        } else {
-            return null;
-        }
-
+    public void apagarParticipante(Integer participanteId) {
+        participanteRepository.apagadoLogicoParticipante(participanteId);
     }
 }
