@@ -23,7 +23,7 @@ public class JogoController {
 
     @GetMapping("/listar")
     @Operation(summary = "Listar Jogos.", description = "Endpoint para listar todos os Jogos.")
-    public ResponseEntity <List<Jogo>> listarInscricoes() { return ResponseEntity.ok(jogoService.listarJogos()); }
+    public ResponseEntity <List<JogoDTOResponse>> listarInscricoes() { return ResponseEntity.ok(jogoService.listarJogos()); }
 
     @GetMapping("/listarJogoId/{jogoId}")
     @Operation(summary = "Listar o Jogo pelo ID dele.", description = "Endpoint para listar um Jogo, pelo ID.")

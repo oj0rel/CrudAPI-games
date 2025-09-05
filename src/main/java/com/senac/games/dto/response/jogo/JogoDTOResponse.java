@@ -1,6 +1,6 @@
 package com.senac.games.dto.response.jogo;
 
-import com.senac.games.entity.Inscricao;
+import com.senac.games.dto.response.inscricao.InscricaoDTOResponse;
 
 import java.util.List;
 
@@ -8,7 +8,8 @@ public class JogoDTOResponse {
     private Integer id;
     private String nome;
     private Integer status;
-    private List<Inscricao> inscricao;
+
+    private List<InscricaoDTOResponse> inscricoes;
 
     public Integer getId() {
         return id;
@@ -34,11 +35,11 @@ public class JogoDTOResponse {
         this.status = status;
     }
 
-    public List<Inscricao> getInscricao() {
-        return inscricao;
+    public List<InscricaoDTOResponse> getInscricoes() {
+        return inscricoes;
     }
 
-    public void setInscricao(List<Inscricao> inscricao) {
-        this.inscricao = inscricao;
+    public void setInscricoes(List<InscricaoDTOResponse> inscricoes) {
+        this.inscricoes = inscricoes;
     }
 }
