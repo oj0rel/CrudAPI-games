@@ -25,13 +25,13 @@ public class ParticipanteController {
     }
 
     @GetMapping("/listar")
-    @Operation(summary = "Listar participantes", description = "Endpoint para listar todos os participantes.")
+    @Operation(summary = "Listar Participantes", description = "Endpoint para listar todos os Participantes.")
     public ResponseEntity <List<Participante>> listarParticipantes() {
         return ResponseEntity.ok(participanteService.listarParticipantes());
     }
 
     @GetMapping("/listarParticipanteId/{participanteId}") //tem que colocar {participanteId}, pois é o que está igual ao Integer participanteId(linha 34).
-    @Operation(summary = "Listar o participante pelo ID dele", description = "Endpoint para listar um participante, pelo ID.")
+    @Operation(summary = "Listar o Participante pelo ID dele", description = "Endpoint para listar um Participante, pelo ID.")
     public ResponseEntity <Participante> listarParticipantePorId(@PathVariable("participanteId") Integer participanteId) { // <- akiii
 
         Participante participante = participanteService.listarParticipantePorId(participanteId);
@@ -45,13 +45,13 @@ public class ParticipanteController {
     }
 
     @PostMapping("/criar")
-    @Operation(summary = "Criar novo participante", description = "Endpoint para criar um novo registro de participante")
+    @Operation(summary = "Criar novo Participante", description = "Endpoint para criar um novo registro de Participante")
     public ResponseEntity<ParticipanteDTOResponse> criarParticipante(@Valid @RequestBody ParticipanteDTORequest participante) { //coloca DTOResponse pois é o que o usuario vai receber passando pelo DTO, e depois DTORequest para o que vai ser passado para criar
         return ResponseEntity.status(HttpStatus.CREATED).body(participanteService.criarParticipante(participante));
     }
 
     @PutMapping("/atualizarPorParticipanteId/{participanteId}")
-    @Operation(summary="Atualizar participantes pelo id", description="Endpoint para editar o participante pelo id")
+    @Operation(summary="Atualizar Participantes pelo id", description="Endpoint para editar o Participante pelo id")
     public ResponseEntity<ParticipanteDTOResponse> editarParticipante(@Valid @PathVariable("participanteId") Integer participanteId,
                                                                       @RequestBody ParticipanteDTORequest participanteDTORequest){
 

@@ -24,7 +24,7 @@ public class CategoriaService {
     public List<Categoria> listarCategorias() { return this.categoriaRepository.listarCategorias(); }
 
     public Categoria listarCategoriaPorId(Integer categoriaId) {
-        return this.categoriaRepository.obterCategoriaPeloId(categoriaId);
+        return this.categoriaRepository.listarCategoriaPeloId(categoriaId);
     }
 
     public CategoriaDTOResponse criarCategoria(CategoriaDTORequest categoriaDTORequest) {
