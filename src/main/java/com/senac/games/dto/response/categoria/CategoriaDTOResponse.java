@@ -7,7 +7,9 @@ import java.util.List;
 public class CategoriaDTOResponse {
 
     private Integer id;
+
     private String nome;
+
     private Integer status;
 
     private List<Jogo> jogos;

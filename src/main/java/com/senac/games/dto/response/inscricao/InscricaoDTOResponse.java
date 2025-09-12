@@ -12,8 +12,21 @@ public class InscricaoDTOResponse {
     private LocalDateTime data;
     private Integer status;
 
-    private List<Participante> participante;
-    private List<Jogo> jogo;
+    private Integer participantaId;
+
+    private Integer jogoId;
+
+
+    public InscricaoDTOResponse() {
+    }
+
+    public InscricaoDTOResponse(Integer id, LocalDateTime data, Integer status, Integer participantaId, Integer jogoId) {
+        this.id = id;
+        this.data = data;
+        this.status = status;
+        this.participantaId = participantaId;
+        this.jogoId = jogoId;
+    }
 
     public Integer getId() {
         return id;
@@ -39,19 +52,19 @@ public class InscricaoDTOResponse {
         this.status = status;
     }
 
-    public List<Participante> getParticipante() {
-        return participante;
+    public Integer getParticipantaId() {
+        return participantaId;
     }
 
-    public void setParticipante(List<Participante> participante) {
-        this.participante = participante;
+    public void setParticipantaId(Integer participantaId) {
+        this.participantaId = participantaId;
     }
 
-    public List<Jogo> getJogo() {
-        return jogo;
+    public Integer getJogoId() {
+        return jogoId;
     }
 
-    public void setJogo(List<Jogo> jogo) {
-        this.jogo = jogo;
+    public void setJogoId(Integer jogoId) {
+        this.jogoId = jogoId;
     }
 }

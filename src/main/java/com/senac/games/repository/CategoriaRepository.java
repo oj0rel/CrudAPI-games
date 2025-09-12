@@ -21,5 +21,5 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Integer>{
     List<Categoria> listarCategorias();
 
     @Query("SELECT c FROM Categoria c WHERE c.id = :id AND c.status >= 0")
-    Categoria listarCategoriaPeloId(@Param("id") Integer categoriaId);
+    Categoria obterCategoriaPeloId(@Param("id") Integer categoriaId);
 }

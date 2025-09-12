@@ -5,12 +5,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
 public class ParticipanteDTOUpdateResponse {
-    @NotEmpty
     private Integer id;
 
-    @NotEmpty
-    @Min(0)
-    @Max(2)
     private Integer status;
 
     public Integer getId() {

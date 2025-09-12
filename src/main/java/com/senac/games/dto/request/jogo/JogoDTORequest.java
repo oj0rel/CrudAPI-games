@@ -3,7 +3,15 @@ package com.senac.games.dto.request.jogo;
 public class JogoDTORequest {
     private String nome;
     private Integer status;
-    private int categoriaId;
+    private Integer categoriaId;
+
+    public JogoDTORequest() {}
+
+    public JogoDTORequest(String nome, Integer status, Integer categoriaId) {
+        this.nome = nome;
+        this.status = status;
+        this.categoriaId = categoriaId;
+    }
 
     public String getNome() {
         return nome;
@@ -21,11 +29,11 @@ public class JogoDTORequest {
         this.status = status;
     }
 
-    public int getCategoriaId() {
+    public Integer getCategoriaId() {
         return categoriaId;
     }
 
-    public void setCategoriaId(int categoriaId) {
+    public void setCategoriaId(Integer categoriaId) {
         this.categoriaId = categoriaId;
     }
 }

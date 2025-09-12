@@ -4,11 +4,14 @@ import com.senac.games.dto.request.patrocinador.PatrocinadorDTORequest;
 import com.senac.games.dto.response.patrocinador.PatrocinadorDTOResponse;
 import com.senac.games.entity.Patrocinador;
 import com.senac.games.repository.PatrocinadorRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatrocinadorService {
@@ -17,35 +20,44 @@ public class PatrocinadorService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository) { this.patrocinadorRepository = patrocinadorRepository; }
-
-    public List<Patrocinador> listarPatrocinadores() { return this.patrocinadorRepository.listarPatrocinadores(); }
-
-    public Patrocinador listarPatrocinadorPorId(Integer patrocinadorId) {
-        return this.patrocinadorRepository.listarPatrocinadorPeloId(patrocinadorId);
+    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository) {
+        this.patrocinadorRepository = patrocinadorRepository;
     }
 
+    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
+        List<Patrocinador> patrocinadores = patrocinadorRepository.listarPatrocinadores();
+        return patrocinadores.stream()
+                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .collect(Collectors.toList());
+    }
+    @Transactional
     public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
         Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-
-        Patrocinador patrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-
-        PatrocinadorDTOResponse patrocinadorDTOResponse = modelMapper.map(patrocinadorSave, PatrocinadorDTOResponse.class);
-
-        return patrocinadorDTOResponse;
+        Patrocinador patrocinadorSalvo = patrocinadorRepository.save(patrocinador);
+        return modelMapper.map(patrocinadorSalvo, PatrocinadorDTOResponse.class);
     }
-
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinadorBuscado = this.listarPatrocinadorPorId(patrocinadorId);
-
-        if (patrocinadorBuscado != null) {
-            modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-            Patrocinador tempPatrocinador = patrocinadorRepository.save(patrocinadorBuscado);
-            return modelMapper.map(tempPatrocinador, PatrocinadorDTOResponse.class);
-        } else {
-            return null;
+    @Transactional
+    public void deletarPorPatrocinadorId(Integer patrocinadorId) {
+        if (!patrocinadorRepository.existsById(patrocinadorId)) {
+            throw new EntityNotFoundException("Patrocinador com ID " + patrocinadorId + " não encontrado");
         }
+        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    }
+    @Transactional
+    public PatrocinadorDTOResponse editarPorPatrocinadorId(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+        return patrocinadorRepository.findById(patrocinadorId)
+                .map(patrocinadorExistente -> {
+                    // Atualiza apenas os campos que foram fornecidos no DTO
+                    modelMapper.map(patrocinadorDTORequest, patrocinadorExistente);
+
+                    Patrocinador patrocinadorAtualizado = patrocinadorRepository.save(patrocinadorExistente);
+                    return modelMapper.map(patrocinadorAtualizado, PatrocinadorDTOResponse.class);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Patrocinador não encontrado com id " + patrocinadorId));
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) { patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId); }
+    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
+        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        return modelMapper.map(patrocinador, PatrocinadorDTOResponse.class);
+    }
 }

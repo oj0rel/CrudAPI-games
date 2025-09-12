@@ -9,7 +9,18 @@ public class JogoDTOResponse {
     private String nome;
     private Integer status;
 
+    private Integer categoriaId;
     private List<InscricaoDTOResponse> inscricoes;
+
+    public JogoDTOResponse() {}
+
+    public JogoDTOResponse(Integer id, String nome, Integer status,Integer categoriaId, List<InscricaoDTOResponse> inscricoes) {
+        this.id = id;
+        this.nome = nome;
+        this.status = status;
+        this.categoriaId=categoriaId;
+        this.inscricoes = inscricoes;
+    }
 
     public Integer getId() {
         return id;
@@ -33,6 +44,14 @@ public class JogoDTOResponse {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     public List<InscricaoDTOResponse> getInscricoes() {

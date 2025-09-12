@@ -22,14 +22,14 @@ public class Inscricao {
     private int status;
 
     //isso aki é para enviar a tabela Inscricao para Participante
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "participante_id", nullable = false)
     private Participante participante;
 
     //isso aki é para enviar a tabela Inscricao para Jogo
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "jogo_id", nullable = false)
     private Jogo jogo;
 

@@ -6,6 +6,36 @@ public class InscricaoDTORequest {
 
     private LocalDateTime data;
     private Integer status;
+    private Integer participanteId;
+    private Integer jogoId;
+
+    public InscricaoDTORequest() {}
+
+    public InscricaoDTORequest(LocalDateTime data, Integer status, Integer participanteId, Integer jogoId) {
+        this.data = data;
+        this.status = status;
+        this.participanteId = participanteId;
+        this.jogoId = jogoId;
+    }
+
+    // Getters e setters...
+
+
+    public Integer getParticipanteId() {
+        return participanteId;
+    }
+
+    public void setParticipanteId(Integer participanteId) {
+        this.participanteId = participanteId;
+    }
+
+    public Integer getJogoId() {
+        return jogoId;
+    }
+
+    public void setJogoId(Integer jogoId) {
+        this.jogoId = jogoId;
+    }
 
     public LocalDateTime getData() {
         return data;

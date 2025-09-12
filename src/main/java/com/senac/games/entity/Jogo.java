@@ -3,6 +3,7 @@ package com.senac.games.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,15 +20,15 @@ public class Jogo {
     @Column(name = "jogo_status")
     private int status;
 
-    //para trazer a tabela Inscricao para Jogo
-    @OneToMany(mappedBy = "jogo")
-    private Set<Inscricao> inscricoes;
-
     //isso aki é para enviar a tabela Jogo para Categoria
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
+
+    //para trazer a tabela Inscricao para Jogo
+    @OneToMany(mappedBy = "jogo")
+    private List<Inscricao> inscricoes;
 
     public Integer getId() {
         return id;
@@ -53,19 +54,19 @@ public class Jogo {
         this.status = status;
     }
 
-    public Set<Inscricao> getInscricoes() {
-        return inscricoes;
-    }
-
-    public void setInscricoes(Set<Inscricao> inscricoes) {
-        this.inscricoes = inscricoes;
-    }
-
     public Categoria getCategoria() {
         return categoria;
     }
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<Inscricao> getInscricoes() {
+        return inscricoes;
+    }
+
+    public void setInscricoes(List<Inscricao> inscricoes) {
+        this.inscricoes = inscricoes;
     }
 }

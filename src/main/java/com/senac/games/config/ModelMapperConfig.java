@@ -10,13 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfig {
 
     @Bean
-    public ModelMapper modelMapper() {
-        ModelMapper mapper = new ModelMapper();
-
-        // Mapeamento de Jogo -> JogoDTOResponse
-        mapper.typeMap(Jogo.class, JogoDTOResponse.class)
-                .addMappings(m -> m.map(Jogo::getInscricoes, JogoDTOResponse::setInscricoes));
-
-        return mapper;
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 }

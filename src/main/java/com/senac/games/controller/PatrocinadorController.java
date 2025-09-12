@@ -6,6 +6,7 @@ import com.senac.games.entity.Patrocinador;
 import com.senac.games.service.PatrocinadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,42 +20,55 @@ import java.util.List;
 public class PatrocinadorController {
     private PatrocinadorService patrocinadorService;
 
-    public PatrocinadorController (PatrocinadorService patrocinadorService) { this.patrocinadorService = patrocinadorService; }
+    public PatrocinadorController(PatrocinadorService patrocinadorService) {
+        this.patrocinadorService = patrocinadorService;
+    }
 
     @GetMapping("/listar")
-    @Operation(summary = "Listar Patrocinadores.", description = "Endpoint para listar todos os Patrocinadores.")
-    public ResponseEntity <List<Patrocinador>> listarInscricoes() { return ResponseEntity.ok(patrocinadorService.listarPatrocinadores()); }
+    @Operation(summary="Listar patrocinador", description="Endpoint para listar todos os patrocinadores")
+    public ResponseEntity<List<PatrocinadorDTOResponse>> listarPatrocinadores() {
+        return ResponseEntity.ok(patrocinadorService.listarPatrocinadores());
+    }
 
-    @GetMapping("/listarPatrocinadorId/{patrocinadorId}")
-    @Operation(summary = "Listar o Patrocinador pelo ID dele.", description = "Endpoint para listar um Patrocinador, pelo ID.")
-    public ResponseEntity <Patrocinador> listarPatrocinadorPorId(@PathVariable("patrocinadorId") Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorService.listarPatrocinadorPorId(patrocinadorId);
 
-        if (patrocinadorId == null) {
-            return ResponseEntity.noContent().build();
-        } else {
+    @GetMapping("/listarPorPatrocinadorId/{patrocinadorId}")
+    @Operation(summary="Listar patrocinadores pelo id do patrocinador", description="Endpoint para listar patrocinadores por id")
+    public ResponseEntity<PatrocinadorDTOResponse> listarPorPatrocinadorId(@PathVariable("patrocinadorId") Integer patrocinadorId) {
+        try {
+            PatrocinadorDTOResponse patrocinador = patrocinadorService.listarPorPatrocinadorId(patrocinadorId);
             return ResponseEntity.ok(patrocinador);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/criar")
-    @Operation(summary = "Criar novo Patrocinador.", description = "Endpoint para criar um novo registro de Patrocinador.")
-    public ResponseEntity<PatrocinadorDTOResponse> criarPatrocinador(@Valid @RequestBody PatrocinadorDTORequest patrocinador) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(patrocinadorService.criarPatrocinador(patrocinador));
+    @PostMapping ("/criar")
+    @Operation(summary="Criar patrocinadores", description="Endpoint para criar patrocinadores")
+    public ResponseEntity<PatrocinadorDTOResponse> criarPatrocinador(@Valid @RequestBody PatrocinadorDTORequest patrocinadorDTORequest) {
+        PatrocinadorDTOResponse novoPatrocinador = patrocinadorService.criarPatrocinador(patrocinadorDTORequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoPatrocinador);
     }
 
-    @PutMapping("/atualizarPatrocinadorPorId/{patrocinadorId}")
-    @Operation(summary = "Atualizar Patrocinador pelo ID.", description = "Endpoint para editar o Patrocinador pelo ID.")
-    public ResponseEntity<PatrocinadorDTOResponse> editarPatrocinador(@Valid @PathVariable("patrocinadorId") Integer patrocinadorId,
-                                                      @RequestBody PatrocinadorDTORequest patrocinadorDTORequest) {
-        PatrocinadorDTOResponse patrocinadorDTOResponse = patrocinadorService.atualizarPatrocinador(patrocinadorId, patrocinadorDTORequest);
-        return ResponseEntity.ok(patrocinadorService.atualizarPatrocinador(patrocinadorId, patrocinadorDTORequest));
+    @DeleteMapping("/deletarPorPatrocinadorId/{patrocinadorId}")
+    @Operation(summary="Deletar patrocinadores pelo id do patrocinador", description="Endpoint para deletar patrocinadores por id")
+    public ResponseEntity<Void> deletarPorPatrocinadorId(@PathVariable("patrocinadorId") Integer patrocinadorId) {
+        try {
+            patrocinadorService.deletarPorPatrocinadorId(patrocinadorId);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("/deletarPatrocinadorId/{patrocinadorId}")
-    @Operation(summary = "Apagar um Patrocinador pelo ID.", description = "Endpoint para apagar um Patrocinador pelo ID.")
-    public ResponseEntity<Void> apagarPatrocinador (@PathVariable Integer patrocinadorId) {
-        patrocinadorService.apagarPatrocinador(patrocinadorId);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/editarPorPatrocinadorId/{patrocinadorId}")
+    @Operation(summary="Listar patrocinadores pelo id do patrocinador", description="Endpoint para editar patrocinadores por id")
+    public ResponseEntity<PatrocinadorDTOResponse> editarPorPatrocinadorId(@PathVariable("patrocinadorId") Integer patrocinadorId,
+                                                                           @Valid @RequestBody PatrocinadorDTORequest patrocinadorDTORequest) {
+        try {
+            PatrocinadorDTOResponse patrocinadorAtualizado = patrocinadorService.editarPorPatrocinadorId(patrocinadorId, patrocinadorDTORequest);
+            return ResponseEntity.ok(patrocinadorAtualizado);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

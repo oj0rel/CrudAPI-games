@@ -1,5 +1,8 @@
 package com.senac.games.service;
 
+import com.senac.games.dto.request.participante.ParticipanteDTOUpdateRequest;
+import com.senac.games.dto.response.participante.ParticipanteDTOUpdateResponse;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import com.senac.games.dto.request.participante.ParticipanteDTORequest;
 import com.senac.games.dto.response.participante.ParticipanteDTOResponse;
@@ -9,67 +12,70 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ParticipanteService {
-    private final ParticipanteRepository participanteRepository; //injetando a classe.
+    private final ParticipanteRepository participanteRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 
-    //construindo o construtor.
     public ParticipanteService(ParticipanteRepository participanteRepository) {
         this.participanteRepository = participanteRepository;
     }
 
-    //método para listar todos os participantes.
-    public List<Participante> listarParticipantes() { return this.participanteRepository.listarParicipantes(); }
-
-    //método para listar um participante, buscando pelo ID dele.
-    public Participante listarParticipantePorId(Integer participanteId) {
-        return this.participanteRepository.findById(participanteId).orElse(null); //caso não venha nada na busca, o orElse faz vir null.
-    }
-
+    @Transactional
     public ParticipanteDTOResponse criarParticipante(ParticipanteDTORequest participanteDTORequest) {
-
-        //instanciação para inserir as informações que estão vindas do participanteDTO em um classe participante que poderá ser salva
         Participante participante = modelMapper.map(participanteDTORequest, Participante.class);
-
         Participante participanteSave = this.participanteRepository.save(participante);
-
         ParticipanteDTOResponse participanteDTOResponse = modelMapper.map(participanteSave, ParticipanteDTOResponse.class);
-
         return participanteDTOResponse;
 
     }
 
+    public List<ParticipanteDTOResponse> listarParticipantesAtivos() {
+        List<Participante> participantes = participanteRepository.listarParicipantes();
+        return participantes.stream()
+                .map(participante -> modelMapper.map(participante, ParticipanteDTOResponse.class))
+                .collect(Collectors.toList());
+    }
 
-    public ParticipanteDTOResponse atualizarParticipante(Integer participanteId, ParticipanteDTORequest participanteDTORequest) {
+    public ParticipanteDTOResponse listarPorParticipanteId(Integer participanteId) {
+        Participante participante = this.participanteRepository.obterParticipantePeloId(participanteId);
+        return modelMapper.map(participante, ParticipanteDTOResponse.class);
+    }
+    @Transactional
+    public ParticipanteDTOResponse editarPorParticipanteId(Integer participanteId, ParticipanteDTORequest participanteDTORequest) {
+        //ante de atualizar busca o registro para atualizar
+        Participante participanteBuscado = this.participanteRepository.obterParticipantePeloId(participanteId);
 
-        //busca se existe o registro a ser atualizado
-        Participante participanteBuscado = this.listarParticipantePorId(participanteId);
-
-        //se encontrar o registro a ser atualizado
+        //Se encontra o registro
         if (participanteBuscado != null) {
-
-            /*
-            copia os dados do DTO de entrada para um objeto Participante
-            que é compatível com o repository para atualizar
-             */
-            modelMapper.map(participanteDTORequest, Participante.class);
-
-            /*
-            com o objeto no formato correto "Participante", o comando save
-            salva no banco de dados o objeto atualizado
-             */
-            Participante tempResponse = participanteRepository.save(participanteBuscado);
-
-            return modelMapper.map(tempResponse, ParticipanteDTOResponse.class);
+            //Copia os dados a sere atualizados do DTO de entrada para um objeto do tipo participante
+            //que é compativel com o repository para atualizar
+            modelMapper.map(participanteDTORequest, participanteBuscado);
+            Participante participanteSalvo = participanteRepository.save(participanteBuscado);
+            //Com o objeto no formato correto tipo "participante" o comando "save" salva no banco de dados
+            return modelMapper.map(participanteSalvo, ParticipanteDTOResponse.class);
         } else {
             return null;
         }
-    }
 
-    public void apagarParticipante(Integer participanteId) {
+    }
+    @Transactional
+    public ParticipanteDTOUpdateResponse atualizarStatusParticipante(Integer participanteId, ParticipanteDTOUpdateRequest participanteDTOUpdateRequest){
+
+        Participante participanteBuscado = this.participanteRepository.obterParticipantePeloId(participanteId);
+        participanteBuscado.setStatus(participanteDTOUpdateRequest.getStatus());
+
+        Participante participanteSalvo = participanteRepository.save(participanteBuscado);
+        return modelMapper.map(participanteSalvo, ParticipanteDTOUpdateResponse.class);
+
+
+    }
+    @Transactional
+    public void apagarParticipante(Integer participanteId){
         participanteRepository.apagadoLogicoParticipante(participanteId);
     }
 }

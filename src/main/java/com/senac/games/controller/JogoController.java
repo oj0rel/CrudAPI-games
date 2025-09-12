@@ -6,6 +6,7 @@ import com.senac.games.entity.Jogo;
 import com.senac.games.service.JogoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,42 +20,53 @@ import java.util.List;
 public class JogoController {
     private JogoService jogoService;
 
-    public JogoController (JogoService jogoService) { this.jogoService = jogoService; }
+    public JogoController(JogoService jogoService) {
+        this.jogoService = jogoService;
+    }
 
     @GetMapping("/listar")
-    @Operation(summary = "Listar Jogos.", description = "Endpoint para listar todos os Jogos.")
-    public ResponseEntity <List<JogoDTOResponse>> listarInscricoes() { return ResponseEntity.ok(jogoService.listarJogos()); }
-
-    @GetMapping("/listarJogoId/{jogoId}")
-    @Operation(summary = "Listar o Jogo pelo ID dele.", description = "Endpoint para listar um Jogo, pelo ID.")
-    public ResponseEntity <Jogo> listarJogoPorId(@PathVariable("jogoId") Integer jogoId) {
-        Jogo jogo = jogoService.listarJogoPorId(jogoId);
-
-        if (jogoId == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(jogo);
-        }
+    @Operation(summary="Listar jogos", description="Endpoint para listar todos os jogos")
+    public ResponseEntity<List<JogoDTOResponse>> listarJogos() {
+        return ResponseEntity.ok(jogoService.listarJogos());
+    }
+    @GetMapping("/listarPorJogoId/{jogoId}")
+    @Operation(summary="Listar jogo pelo id do jogo", description="Endpoint para listar jogo por id")
+    public ResponseEntity<JogoDTOResponse> listarPorJogoId(@PathVariable("jogoId") Integer jogoId) {
+        JogoDTOResponse jogo = jogoService.listarPorJogoId(jogoId);
+        return ResponseEntity.ok(jogo);
     }
 
     @PostMapping("/criar")
-    @Operation(summary = "Criar novo Jogo.", description = "Endpoint para criar um novo registro de Jogo.")
-    public ResponseEntity<JogoDTOResponse> criarJogo(@Valid @RequestBody JogoDTORequest jogo) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(jogo));
+    @Operation(summary="Criar jogo", description="Endpoint para criar jogo")
+    public ResponseEntity<JogoDTOResponse> criarJogo(@Valid @RequestBody JogoDTORequest jogoDTORequest) {
+        try {
+            JogoDTOResponse novoJogo = jogoService.criarJogo(jogoDTORequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(novoJogo);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PutMapping("/atualizarJogoPorId/{jogoId}")
-    @Operation(summary = "Atualizar Jogo pelo ID.", description = "Endpoint para editar o Jogo pelo ID.")
-    public ResponseEntity<JogoDTOResponse> editarJogo(@Valid @PathVariable("jogoId") Integer jogoId,
-                                                                @RequestBody JogoDTORequest jogoDTORequest) {
-        JogoDTOResponse jogoDTOResponse = jogoService.atualizarJogo(jogoId, jogoDTORequest);
-        return ResponseEntity.ok(jogoService.atualizarJogo(jogoId, jogoDTORequest));
+    @PutMapping("/editarPorJogoId/{jogoId}")
+    @Operation(summary="Editar jogo pelo id do jogo", description="Endpoint para editar jogo por id")
+    public ResponseEntity<JogoDTOResponse> editarPorJogoId(@PathVariable("jogoId") Integer jogoId,
+                                                           @Valid @RequestBody JogoDTORequest jogoDTORequest) {
+        try {
+            JogoDTOResponse jogoAtualizado = jogoService.editarPorJogoId(jogoId, jogoDTORequest);
+            return ResponseEntity.ok(jogoAtualizado);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("/deletarJogoId/{jogoId}")
-    @Operation(summary = "Apagar um Jogo pelo ID.", description = "Endpoint para apagar um Jogo pelo ID.")
-    public ResponseEntity<Void> apagarJogo (@PathVariable Integer jogoId) {
-        jogoService.apagarJogo(jogoId);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/deletarPorJogoId/{jogoId}")
+    @Operation(summary="Deletar jogo pelo id do jogo", description="Endpoint para deletar jogo por id")
+    public ResponseEntity<Void> deletarPorJogoId(@PathVariable("jogoId") Integer jogoId) {
+        try {
+            jogoService.deletarPorJogoId(jogoId);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

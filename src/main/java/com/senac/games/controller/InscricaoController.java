@@ -6,6 +6,7 @@ import com.senac.games.entity.Inscricao;
 import com.senac.games.service.InscricaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,42 +21,53 @@ public class InscricaoController {
 
     private InscricaoService inscricaoService;
 
-    public InscricaoController (InscricaoService inscricaoService) { this.inscricaoService = inscricaoService; }
+    public InscricaoController(InscricaoService inscricaoService) {
+        this.inscricaoService = inscricaoService;
+    }
 
     @GetMapping("/listar")
-    @Operation(summary = "Listar Inscrições", description = "Endpoint para listar todas as Inscrições.")
-    public ResponseEntity <List<Inscricao>> listarInscricoes() { return ResponseEntity.ok(inscricaoService.listarInscricoes()); }
-
-    @GetMapping("/listarInscricaoId/{inscricaoId}")
-    @Operation(summary = "Listar a Inscricao pelo ID dela.", description = "Endpoint para listar uma Inscricao, pelo ID.")
-    public ResponseEntity <Inscricao> listarInscricaoPorId(@PathVariable("inscricaoId") Integer inscricaoId) {
-        Inscricao inscricao = inscricaoService.listarInscricaoPorId(inscricaoId);
-
-        if (inscricaoId == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(inscricao);
-        }
+    @Operation(summary="Listar inscricoes", description="Endpoint para listar todas as inscricoes")
+    public ResponseEntity<List<InscricaoDTOResponse>> listarInscricao(){
+        return ResponseEntity.ok(inscricaoService.listarInscricoesAtivos());
     }
 
     @PostMapping("/criar")
-    @Operation(summary = "Criar nova Inscrição.", description = "Endpoint para criar um novo registro de Inscrição.")
-    public ResponseEntity<InscricaoDTOResponse> criarInscricao(@Valid @RequestBody InscricaoDTORequest inscricao) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(inscricaoService.criarInscricao(inscricao));
+    @Operation(summary="Criar inscricoes", description="Endpoint para criar inscricoes")
+    public ResponseEntity<InscricaoDTOResponse> criarInscricao(@Valid @RequestBody InscricaoDTORequest inscricaoDTORequest){
+        return ResponseEntity.status(HttpStatus.CREATED).body(inscricaoService.criarInscricao(inscricaoDTORequest));
     }
 
-    @PutMapping("/atualizarInscricaoPorId/{inscricaoId}")
-    @Operation(summary = "Atualizar Inscrição pelo ID.", description = "Endpoint para editar a Inscrição pelo ID.")
-    public ResponseEntity<InscricaoDTOResponse> editarInscricao(@Valid @PathVariable("inscricaoId") Integer inscricaoId,
-                                                                @RequestBody InscricaoDTORequest inscricaoDTORequest) {
-        InscricaoDTOResponse inscricaoDTOResponse = inscricaoService.atualizarInscricao(inscricaoId, inscricaoDTORequest);
-        return ResponseEntity.ok(inscricaoService.atualizarInscricao(inscricaoId, inscricaoDTORequest));
+    @GetMapping("/listarPorInscricaoId/{inscricaoId}")
+    @Operation(summary="Listar inscricoes pelo id inscricao", description="Endpoint para listar inscricoes por id")
+    public ResponseEntity<InscricaoDTOResponse> listarPorInscricaoId(@PathVariable("inscricaoId") Integer inscricaoId) {
+        try {
+            InscricaoDTOResponse inscricao = inscricaoService.listarPorInscricaoId(inscricaoId);
+            return ResponseEntity.ok(inscricao);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("/deletarInscricaoId/{inscricaoId}")
-    @Operation(summary = "Apagar uma Inscrição pelo ID.", description = "Endpoint para apagar uma Inscrição pelo ID.")
-    public ResponseEntity<Void> apagarInscricao (@PathVariable Integer inscricaoId) {
-        inscricaoService.apagarInscricao(inscricaoId);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/deletarPorInscricaoId/{inscricaoId}")
+    @Operation(summary="Deletar inscricoes pelo id da inscricao", description="Endpoint para deletar inscricoes por id")
+    public ResponseEntity<Void> deletarPorInscricaoId(@PathVariable Integer inscricaoId) {
+        try {
+            inscricaoService.deletarPorInscricaoId(inscricaoId);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/editarPorInscricaoId/{inscricaoId}")
+    @Operation(summary="Editar inscricoes pelo id da inscricao", description="Endpoint para editar inscricoes por id")
+    public ResponseEntity<InscricaoDTOResponse> editarPorInscricaoId(@PathVariable Integer inscricaoId,
+                                                                     @RequestBody InscricaoDTORequest inscricaoDTORequest) {
+        try {
+            InscricaoDTOResponse inscricaoAtualizada = inscricaoService.editarPorInscricaoId(inscricaoId, inscricaoDTORequest);
+            return ResponseEntity.ok(inscricaoAtualizada); // 200 OK com o inscricao atualizado
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build(); // 404 se não achar o inscricao
+        }
     }
 }

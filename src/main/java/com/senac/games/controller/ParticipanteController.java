@@ -1,11 +1,13 @@
 package com.senac.games.controller;
 
 import com.senac.games.dto.request.participante.ParticipanteDTORequest;
+import com.senac.games.dto.request.participante.ParticipanteDTOUpdateRequest;
 import com.senac.games.dto.response.participante.ParticipanteDTOResponse;
-import com.senac.games.entity.Participante;
+import com.senac.games.dto.response.participante.ParticipanteDTOUpdateResponse;
 import com.senac.games.service.ParticipanteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,43 +22,55 @@ public class ParticipanteController {
 
     private ParticipanteService participanteService;
 
-    public ParticipanteController (ParticipanteService participanteService) {
+    public ParticipanteController(ParticipanteService participanteService) {
         this.participanteService = participanteService;
     }
 
     @GetMapping("/listar")
-    @Operation(summary = "Listar Participantes", description = "Endpoint para listar todos os Participantes.")
-    public ResponseEntity <List<Participante>> listarParticipantes() {
-        return ResponseEntity.ok(participanteService.listarParticipantes());
-    }
-
-    @GetMapping("/listarParticipanteId/{participanteId}") //tem que colocar {participanteId}, pois é o que está igual ao Integer participanteId(linha 34).
-    @Operation(summary = "Listar o Participante pelo ID dele", description = "Endpoint para listar um Participante, pelo ID.")
-    public ResponseEntity <Participante> listarParticipantePorId(@PathVariable("participanteId") Integer participanteId) { // <- akiii
-
-        Participante participante = participanteService.listarParticipantePorId(participanteId);
-
-        //tratamento caso retorne null
-        if(participanteId == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(participante);
-        }
+    @Operation(summary="Listar participantes", description="Endpoint para listar todos os participantes")
+    public ResponseEntity<List<com.senac.games.dto.response.participante.ParticipanteDTOResponse>> listarParticipantes(){
+        return ResponseEntity.ok(participanteService.listarParticipantesAtivos());
     }
 
     @PostMapping("/criar")
-    @Operation(summary = "Criar novo Participante", description = "Endpoint para criar um novo registro de Participante")
-    public ResponseEntity<ParticipanteDTOResponse> criarParticipante(@Valid @RequestBody ParticipanteDTORequest participante) { //coloca DTOResponse pois é o que o usuario vai receber passando pelo DTO, e depois DTORequest para o que vai ser passado para criar
-        return ResponseEntity.status(HttpStatus.CREATED).body(participanteService.criarParticipante(participante));
+    @Operation(summary="Criar participantes", description="Endpoint para criar os participantes")
+    public ResponseEntity<com.senac.games.dto.response.participante.ParticipanteDTOResponse> criarParticipante(@Valid @RequestBody com.senac.games.dto.request.participante.ParticipanteDTORequest participanteDTORequest){
+        return ResponseEntity.status(HttpStatus.CREATED).body(participanteService.criarParticipante(participanteDTORequest));
     }
 
-    @PutMapping("/atualizarPorParticipanteId/{participanteId}")
-    @Operation(summary="Atualizar Participantes pelo id", description="Endpoint para editar o Participante pelo id")
-    public ResponseEntity<ParticipanteDTOResponse> editarParticipante(@Valid @PathVariable("participanteId") Integer participanteId,
-                                                                      @RequestBody ParticipanteDTORequest participanteDTORequest){
+    @GetMapping("/listarPorParticipanteId/{participanteId}")
+    @Operation(summary="Listar participantes pelo id", description="Endpoint para listar o participante pelo id")
+    public ResponseEntity<com.senac.games.dto.response.participante.ParticipanteDTOResponse> listarPorParticipanteId(@PathVariable("participanteId") Integer participanteId) {
+        com.senac.games.dto.response.participante.ParticipanteDTOResponse participanteDTO = participanteService.listarPorParticipanteId(participanteId);
+        return ResponseEntity.ok(participanteDTO);
+    }
 
-        ParticipanteDTOResponse participanteAtualizado = participanteService.atualizarParticipante(participanteId, participanteDTORequest);
-        return ResponseEntity.ok(participanteService.atualizarParticipante(participanteId,participanteDTORequest)); // 200 OK com o participante atualizada
+    @DeleteMapping("/deletarPorParticipanteId/{participanteId}")
+    @Operation(summary="Deletar participantes pelo id", description="Endpoint para deletar o participante pelo id")
+    public ResponseEntity<Void> deletarPorParticipanteId(@PathVariable("participanteId") Integer participanteId) {
+        try {
+            participanteService.apagarParticipante(participanteId);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/editarPorParticipanteId/{participanteId}")
+    @Operation(summary="Atualizar participantes pelo id", description="Endpoint para editar o participante pelo id")
+    public ResponseEntity<com.senac.games.dto.response.participante.ParticipanteDTOResponse> editarParticipante(@PathVariable("participanteId") Integer participanteId,
+                                                                                                   @RequestBody ParticipanteDTORequest participanteDTORequest){
+
+        ParticipanteDTOResponse participanteAtualizado = participanteService.editarPorParticipanteId(participanteId, participanteDTORequest);
+        return ResponseEntity.ok(participanteService.editarPorParticipanteId(participanteId,participanteDTORequest)); // 200 OK com o participante atualizada
+
+    }
+
+    @PatchMapping("/editarStatusParticipante/{participanteId}")
+    @Operation(summary="Atualizar campo de status", description="Endpoint para atualizar o participante status")
+    public ResponseEntity<ParticipanteDTOUpdateResponse> editarParticipanteStatus(@PathVariable("participanteId") Integer participanteId,
+                                                                                  @RequestBody ParticipanteDTOUpdateRequest participanteDTOUpdateRequest){
+        return ResponseEntity.ok(participanteService.atualizarStatusParticipante(participanteId,participanteDTOUpdateRequest));
 
     }
 
