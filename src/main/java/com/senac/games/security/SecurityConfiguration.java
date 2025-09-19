@@ -21,27 +21,34 @@ public class SecurityConfiguration {
     @Autowired
     private UserAuthenticationFilter userAuthenticationFilter;
 
+    // Adicione esta constante com os endpoints do Swagger
+    private static final String[] SWAGGER_ENDPOINTS = {
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // libera criação de usuário e login sem token
+                        // Libera os endpoints do Swagger
+                        .requestMatchers(SWAGGER_ENDPOINTS).permitAll()
+
+                        // Libera criação de usuário e login sem token
                         .requestMatchers(HttpMethod.POST, "/users", "/users/login").permitAll()
 
-                        // endpoints de teste
+                        // Endpoints de teste com suas respectivas permissões
                         .requestMatchers("/users/test").authenticated()
-                        .requestMatchers("/users/test/customer").hasAuthority("ROLE_CUSTOMER")
-                        .requestMatchers("/users/test/administrator").hasAuthority("ROLE_ADMINISTRATOR")
+                        .requestMatchers("/users/test/customer").hasRole("CUSTOMER")
+                        .requestMatchers("/users/test/administrator").hasRole("ADMINISTRATOR")
 
-                        // qualquer outro request será bloqueado
-//                        .anyRequest().denyAll()
-
-                        //TESTE
-                        .anyRequest().permitAll()
+                        // Qualquer outra requisição não listada acima exigirá autenticação
+                        .anyRequest().authenticated()
                 )
-                // adiciona o filtro JWT antes do filtro padrão do Spring
+                // Adiciona o filtro JWT antes do filtro padrão do Spring
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

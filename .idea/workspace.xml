@@ -5,7 +5,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b0041f1-6f5b-4cec-979a-b478da43f353" name="Changes" comment="Correção de erros e da recursão infinita.">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/senac/games/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/senac/games/security/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/GamesApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/GamesApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/config/ModelMapperConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/config/ModelMapperConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/controller/CategoriaController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/controller/CategoriaController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/controller/InscricaoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/controller/InscricaoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/controller/JogoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/controller/JogoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/controller/ParticipanteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/controller/ParticipanteController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/controller/PatrocinadorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/controller/PatrocinadorController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/controller/PremioController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/controller/PremioController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/controller/UsuarioController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/controller/UsuarioController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/CreateUserDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/CreateUserDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/LoginUserDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/LoginUserDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/RecoveryJwtTokenDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/RecoveryJwtTokenDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/RecoveryUserDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/RecoveryUserDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/categoria/CategoriaDTORequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/categoria/CategoriaDTORequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/inscricao/InscricaoDTORequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/inscricao/InscricaoDTORequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/jogo/JogoDTORequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/jogo/JogoDTORequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/participante/ParticipanteDTORequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/participante/ParticipanteDTORequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/participante/ParticipanteDTOUpdateRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/participante/ParticipanteDTOUpdateRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/patrocinador/PatrocinadorDTORequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/patrocinador/PatrocinadorDTORequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/premio/PremioDTORequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/request/premio/PremioDTORequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/categoria/CategoriaDTOResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/categoria/CategoriaDTOResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/inscricao/InscricaoDTOResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/inscricao/InscricaoDTOResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/jogo/JogoDTOResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/jogo/JogoDTOResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/participante/ParticipanteDTOResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/participante/ParticipanteDTOResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/participante/ParticipanteDTOUpdateResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/participante/ParticipanteDTOUpdateResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/patrocinador/PatrocinadorDTOResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/patrocinador/PatrocinadorDTOResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/premio/PremioDTOResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/dto/response/premio/PremioDTOResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Categoria.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Categoria.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Inscricao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Inscricao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Jogo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Jogo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Participante.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Participante.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Patrocinador.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Patrocinador.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Premio.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Premio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Role.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/entity/Usuario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/enums/RoleName.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/enums/RoleName.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/CategoriaRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/CategoriaRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/InscricaoRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/InscricaoRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/JogoRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/JogoRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/ParticipanteRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/ParticipanteRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/PatrocinadorRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/PatrocinadorRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/PremioRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/PremioRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/RoleRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/RoleRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/repository/UsuarioRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/repository/UsuarioRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/security/SecurityConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/security/SecurityConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/security/UserAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/security/UserAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/security/UserDetailsImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/security/UserDetailsImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/CategoriaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/CategoriaService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/InscricaoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/InscricaoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/JogoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/JogoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/JwtTokenService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/JwtTokenService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/ParticipanteService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/ParticipanteService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/PatrocinadorService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/PatrocinadorService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/PremioService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/PremioService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/UserDetailsServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/UserDetailsServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/senac/games/service/UsuarioService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/senac/games/service/UsuarioService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +76,8 @@
       <list>
         <option value="Enum" />
         <option value="Record" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -37,6 +96,9 @@
     &quot;accountId&quot;: &quot;8fb60249-2dfc-4f90-bdbd-fd145b42a538&quot;
   }
 }</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 5
@@ -52,9 +114,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true"
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/36129382024.1m/Documents/Gabriel Santos/Programação Web/Projetos/Ajeitar Meu Games/CrudAPI-games"
   }
 }]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="1b0041f1-6f5b-4cec-979a-b478da43f353" name="Changes" comment="" />
