@@ -72,5 +72,4 @@ public class Inscricao {
     public void setJogo(Jogo jogo) {
         this.jogo = jogo;
     }
-
 }

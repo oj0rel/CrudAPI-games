@@ -11,6 +11,8 @@ public class Premio {
     private Integer id;
     @Column(name = "premio_descricao")
     private String descricao;
+    @Column(name = "premio_ordem_premiacao")
+    private Integer ordem_premiacao;
     @Column(name = "premio_categoria")
     private Integer categoria;
     @Column(name = "premio_status")
@@ -30,6 +32,14 @@ public class Premio {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Integer getOrdem_premiacao() {
+        return ordem_premiacao;
+    }
+
+    public void setOrdem_premiacao(Integer ordem_premiacao) {
+        this.ordem_premiacao = ordem_premiacao;
     }
 
     public Integer getCategoria() {

@@ -11,20 +11,18 @@ public class InscricaoDTOResponse {
     private Integer id;
     private LocalDateTime data;
     private Integer status;
-
-    private Integer participantaId;
-
+    private Integer participanteId;
     private Integer jogoId;
 
 
     public InscricaoDTOResponse() {
     }
 
-    public InscricaoDTOResponse(Integer id, LocalDateTime data, Integer status, Integer participantaId, Integer jogoId) {
+    public InscricaoDTOResponse(Integer id, LocalDateTime data, Integer status, Integer participanteId, Integer jogoId) {
         this.id = id;
         this.data = data;
         this.status = status;
-        this.participantaId = participantaId;
+        this.participanteId = participanteId;
         this.jogoId = jogoId;
     }
 
@@ -52,12 +50,12 @@ public class InscricaoDTOResponse {
         this.status = status;
     }
 
-    public Integer getParticipantaId() {
-        return participantaId;
+    public Integer getParticipanteId() {
+        return participanteId;
     }
 
-    public void setParticipantaId(Integer participantaId) {
-        this.participantaId = participantaId;
+    public void setParticipanteId(Integer participanteId) {
+        this.participanteId = participanteId;
     }
 
     public Integer getJogoId() {

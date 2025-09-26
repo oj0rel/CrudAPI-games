@@ -94,5 +94,4 @@ public class Participante {
     public void setInscricoes(Set<Inscricao> inscricoes) {
         this.inscricoes = inscricoes;
     }
-
 }

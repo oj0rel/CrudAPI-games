@@ -33,21 +33,21 @@ public class InscricaoService {
     }
     @Transactional
     public InscricaoDTOResponse criarInscricao(InscricaoDTORequest inscricaoDTORequest) {
-        // Converter DTO para entidade
-        Inscricao inscricao = modelMapper.map(inscricaoDTORequest, Inscricao.class);
+        Inscricao inscricao = new Inscricao();
 
-        // Buscar e configurar as entidades relacionadas
-        Participante participante = participanteRepository.findById(inscricaoDTORequest.getParticipanteId())
+        Participante participante = participanteRepository.findById(Integer.valueOf(inscricaoDTORequest.getParticipanteId()))
                 .orElseThrow(() -> new EntityNotFoundException("Participante não encontrado com ID: " + inscricaoDTORequest.getParticipanteId()));
 
-        Jogo jogo = jogoRepository.findById(inscricaoDTORequest.getJogoId())
+        Jogo jogo = jogoRepository.findById(Integer.valueOf(inscricaoDTORequest.getJogoId()))
                 .orElseThrow(() -> new EntityNotFoundException("Jogo não encontrado com ID: " + inscricaoDTORequest.getJogoId()));
 
+        inscricao.setData(inscricaoDTORequest.getData());
+        inscricao.setStatus(inscricaoDTORequest.getStatus());
         inscricao.setParticipante(participante);
         inscricao.setJogo(jogo);
 
-        // Salvar a inscrição
         Inscricao inscricaoSalva = inscricaoRepository.save(inscricao);
+
         return modelMapper.map(inscricaoSalva, InscricaoDTOResponse.class);
     }
 

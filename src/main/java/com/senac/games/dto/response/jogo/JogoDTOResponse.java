@@ -8,7 +8,6 @@ public class JogoDTOResponse {
     private Integer id;
     private String nome;
     private Integer status;
-
     private Integer categoriaId;
     private List<InscricaoDTOResponse> inscricoes;
 

@@ -21,22 +21,6 @@ public class InscricaoDTORequest {
     // Getters e setters...
 
 
-    public Integer getParticipanteId() {
-        return participanteId;
-    }
-
-    public void setParticipanteId(Integer participanteId) {
-        this.participanteId = participanteId;
-    }
-
-    public Integer getJogoId() {
-        return jogoId;
-    }
-
-    public void setJogoId(Integer jogoId) {
-        this.jogoId = jogoId;
-    }
-
     public LocalDateTime getData() {
         return data;
     }
@@ -51,5 +35,21 @@ public class InscricaoDTORequest {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getParticipanteId() {
+        return participanteId;
+    }
+
+    public void setParticipanteId(Integer participanteId) {
+        this.participanteId = participanteId;
+    }
+
+    public Integer getJogoId() {
+        return jogoId;
+    }
+
+    public void setJogoId(Integer jogoId) {
+        this.jogoId = jogoId;
     }
 }
