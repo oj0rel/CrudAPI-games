@@ -2,6 +2,7 @@ package com.senac.games.service;
 
 import com.senac.games.dto.request.participante.ParticipanteDTOUpdateRequest;
 import com.senac.games.dto.response.participante.ParticipanteDTOUpdateResponse;
+import com.senac.games.openFeign.GamesFeignClient;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import com.senac.games.dto.request.participante.ParticipanteDTORequest;

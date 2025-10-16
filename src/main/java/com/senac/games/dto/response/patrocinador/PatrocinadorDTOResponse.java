@@ -1,5 +1,7 @@
 package com.senac.games.dto.response.patrocinador;
 
+import com.senac.games.entity.Patrocinador;
+
 public class PatrocinadorDTOResponse {
     private Integer id;
 
@@ -16,6 +18,13 @@ public class PatrocinadorDTOResponse {
         this.nome = nome;
         this.representanteNome = representanteNome;
         this.status = status;
+    }
+
+    public PatrocinadorDTOResponse(Patrocinador patrocinador) {
+        this.id = patrocinador.getId();
+        this.nome = patrocinador.getNome();
+        this.representanteNome = patrocinador.getRepresentanteNome();
+        this.status = patrocinador.getStatus();
     }
 
     public Integer getId() { return id; }

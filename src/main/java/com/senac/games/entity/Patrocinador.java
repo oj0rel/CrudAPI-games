@@ -1,5 +1,6 @@
 package com.senac.games.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,19 +9,23 @@ public class Patrocinador {
     @Id //anotação explicitando que é um ID
     @GeneratedValue(strategy = GenerationType.IDENTITY) //gera o valor automaticamente
     @Column(name = "patrocinador_id") //vai puxar do banco a informacao da coluna que tiver com este mesmo nome entre parênteses
+    @JsonProperty("patrocinador_id")
     private Integer id;
     @Column(name = "patrocinador_nome")
+    @JsonProperty("patrocinador_nome")
     private String nome;
     @Column(name = "patrocinador_representante_nome")
+    @JsonProperty("patrocinador_representante_nome")
     private String representanteNome;
     @Column(name = "patrocinador_status")
+    @JsonProperty("patrocinador_status")
     private Integer status;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,11 +45,11 @@ public class Patrocinador {
         this.representanteNome = representanteNome;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

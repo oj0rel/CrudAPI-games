@@ -3,11 +3,13 @@ package com.senac.games.controller;
 import com.senac.games.dto.request.patrocinador.PatrocinadorDTORequest;
 import com.senac.games.dto.response.patrocinador.PatrocinadorDTOResponse;
 import com.senac.games.entity.Patrocinador;
+import com.senac.games.openFeign.GamesFeignClient;
 import com.senac.games.service.PatrocinadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,9 @@ import java.util.List;
 @Tag(name = "Patrocinador", description = "API para gerenciamento de Patrocinadores.")
 public class PatrocinadorController {
     private PatrocinadorService patrocinadorService;
+
+    @Autowired
+    GamesFeignClient gamesFeignClient;
 
     public PatrocinadorController(PatrocinadorService patrocinadorService) {
         this.patrocinadorService = patrocinadorService;
@@ -70,5 +75,15 @@ public class PatrocinadorController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("listarPatrocinadorRecebidoPorId/{patrocinadorId}")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<PatrocinadorDTOResponse> receberPatrocinadorPorId(
+            @PathVariable("patrocinadorId") Integer patrocinadorId
+    ) {
+        Patrocinador patrocinador = gamesFeignClient.findById(patrocinadorId);
+        PatrocinadorDTOResponse dto = new PatrocinadorDTOResponse(patrocinador);
+        return ResponseEntity.ok(dto);
     }
 }
