@@ -3,7 +3,7 @@ package com.senac.games.service;
 import com.senac.games.dto.request.patrocinador.PatrocinadorDTORequest;
 import com.senac.games.dto.response.patrocinador.PatrocinadorDTOResponse;
 import com.senac.games.entity.Patrocinador;
-import com.senac.games.openFeign.GamesFeignClient;
+import com.senac.games.openFeign.PatrocinadorGamesFeignClient;
 import com.senac.games.repository.PatrocinadorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -18,17 +18,17 @@ import java.util.stream.Collectors;
 public class PatrocinadorService {
     private final PatrocinadorRepository patrocinadorRepository;
 
-    private final GamesFeignClient gamesFeignClient;
+    private final PatrocinadorGamesFeignClient patrocinadorGamesFeignClient;
 
     @Autowired
     private ModelMapper modelMapper;
 
     public PatrocinadorService(
             PatrocinadorRepository patrocinadorRepository,
-            GamesFeignClient gamesFeignClient
+            PatrocinadorGamesFeignClient patrocinadorGamesFeignClient
     ) {
         this.patrocinadorRepository = patrocinadorRepository;
-        this.gamesFeignClient = gamesFeignClient;
+        this.patrocinadorGamesFeignClient = patrocinadorGamesFeignClient;
     }
 
     public List<PatrocinadorDTOResponse> listarPatrocinadores() {
@@ -68,8 +68,11 @@ public class PatrocinadorService {
         return modelMapper.map(patrocinador, PatrocinadorDTOResponse.class);
     }
 
-    public PatrocinadorDTOResponse receberPatrocinadorPorId(Integer patrocinadorId) {
-        PatrocinadorDTOResponse patrocinadorRecebido = gamesFeignClient.findById(patrocinadorId);
-        return patrocinadorRecebido;
+    /*
+    ======================== MÉTODOS PARA PUXAR DE OUTRA API ========================
+     */
+
+    public List<PatrocinadorDTOResponse> listarPatrocinadoresRecebidos() {
+        return patrocinadorGamesFeignClient.listarPatrocinadoresRecebidos();
     }
 }

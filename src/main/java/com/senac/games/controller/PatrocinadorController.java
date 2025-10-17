@@ -2,8 +2,7 @@ package com.senac.games.controller;
 
 import com.senac.games.dto.request.patrocinador.PatrocinadorDTORequest;
 import com.senac.games.dto.response.patrocinador.PatrocinadorDTOResponse;
-import com.senac.games.entity.Patrocinador;
-import com.senac.games.openFeign.GamesFeignClient;
+import com.senac.games.openFeign.PatrocinadorGamesFeignClient;
 import com.senac.games.service.PatrocinadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +22,7 @@ public class PatrocinadorController {
     private PatrocinadorService patrocinadorService;
 
     @Autowired
-    GamesFeignClient gamesFeignClient;
+    PatrocinadorGamesFeignClient patrocinadorGamesFeignClient;
 
     public PatrocinadorController(PatrocinadorService patrocinadorService) {
         this.patrocinadorService = patrocinadorService;
@@ -77,13 +76,4 @@ public class PatrocinadorController {
         }
     }
 
-    @GetMapping("listarPatrocinadorRecebidoPorId/{patrocinadorId}")
-    @CrossOrigin(origins = "*")
-    public ResponseEntity<PatrocinadorDTOResponse> receberPatrocinadorPorId(
-            @PathVariable("patrocinadorId") Integer patrocinadorId
-    ) {
-        PatrocinadorDTOResponse patrocinadorRecebido = gamesFeignClient.findById(patrocinadorId);
-        PatrocinadorDTOResponse dto = patrocinadorRecebido;
-        return ResponseEntity.ok(dto);
-    }
 }
