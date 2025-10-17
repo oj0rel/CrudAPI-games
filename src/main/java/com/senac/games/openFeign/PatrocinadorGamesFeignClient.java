@@ -1,12 +1,12 @@
 package com.senac.games.openFeign;
 
+import com.senac.games.dto.request.patrocinador.PatrocinadorDTORequest;
 import com.senac.games.dto.response.patrocinador.PatrocinadorDTOResponse;
 import com.senac.games.repository.PatrocinadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +25,7 @@ public interface PatrocinadorGamesFeignClient {
     @GetMapping(value= "/listarPorPatrocinadorId/{patrocinadorId}")
     public PatrocinadorDTOResponse findById(@PathVariable("patrocinadorId") Integer patrocinadorId);
 
-
+    @PostMapping("/criar")
+    @ResponseBody
+    public PatrocinadorDTOResponse criarPatrocinadorEnviar(@RequestBody PatrocinadorDTORequest dto);
 }

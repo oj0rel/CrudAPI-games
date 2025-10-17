@@ -75,4 +75,14 @@ public class PatrocinadorService {
     public List<PatrocinadorDTOResponse> listarPatrocinadoresRecebidos() {
         return patrocinadorGamesFeignClient.listarPatrocinadoresRecebidos();
     }
+
+    @Transactional
+    public PatrocinadorDTOResponse criarPatrocinadorEnviar(PatrocinadorDTORequest patrocinadorDTORequest) {
+        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
+        patrocinadorRepository.save(patrocinador);
+
+        PatrocinadorDTOResponse patrocinadorRecebido = patrocinadorGamesFeignClient.criarPatrocinadorEnviar(patrocinadorDTORequest);
+        return patrocinadorRecebido;
+    }
+
 }
