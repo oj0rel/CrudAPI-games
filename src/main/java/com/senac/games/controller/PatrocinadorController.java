@@ -82,8 +82,8 @@ public class PatrocinadorController {
     public ResponseEntity<PatrocinadorDTOResponse> receberPatrocinadorPorId(
             @PathVariable("patrocinadorId") Integer patrocinadorId
     ) {
-        Patrocinador patrocinador = gamesFeignClient.findById(patrocinadorId);
-        PatrocinadorDTOResponse dto = new PatrocinadorDTOResponse(patrocinador);
+        PatrocinadorDTOResponse patrocinadorRecebido = gamesFeignClient.findById(patrocinadorId);
+        PatrocinadorDTOResponse dto = patrocinadorRecebido;
         return ResponseEntity.ok(dto);
     }
 }

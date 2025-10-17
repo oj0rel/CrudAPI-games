@@ -69,7 +69,7 @@ public class PatrocinadorService {
     }
 
     public PatrocinadorDTOResponse receberPatrocinadorPorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = gamesFeignClient.findById(patrocinadorId);
-        return modelMapper.map(patrocinador, PatrocinadorDTOResponse.class);
+        PatrocinadorDTOResponse patrocinadorRecebido = gamesFeignClient.findById(patrocinadorId);
+        return patrocinadorRecebido;
     }
 }
