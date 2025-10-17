@@ -37,21 +37,21 @@ public class PatrocinadorService {
                 .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
                 .collect(Collectors.toList());
     }
+
+    public PatrocinadorDTOResponse listarPatrocinadorPorId(Integer patrocinadorId) {
+        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        return modelMapper.map(patrocinador, PatrocinadorDTOResponse.class);
+    }
+
     @Transactional
     public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
         Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
         Patrocinador patrocinadorSalvo = patrocinadorRepository.save(patrocinador);
         return modelMapper.map(patrocinadorSalvo, PatrocinadorDTOResponse.class);
     }
+
     @Transactional
-    public void deletarPorPatrocinadorId(Integer patrocinadorId) {
-        if (!patrocinadorRepository.existsById(patrocinadorId)) {
-            throw new EntityNotFoundException("Patrocinador com ID " + patrocinadorId + " não encontrado");
-        }
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
-    }
-    @Transactional
-    public PatrocinadorDTOResponse editarPorPatrocinadorId(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public PatrocinadorDTOResponse editarPatrocinadorPorId(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
         return patrocinadorRepository.findById(patrocinadorId)
                 .map(patrocinadorExistente -> {
                     // Atualiza apenas os campos que foram fornecidos no DTO
@@ -63,26 +63,50 @@ public class PatrocinadorService {
                 .orElseThrow(() -> new EntityNotFoundException("Patrocinador não encontrado com id " + patrocinadorId));
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return modelMapper.map(patrocinador, PatrocinadorDTOResponse.class);
+    @Transactional
+    public void deletarPatrocinadorPorId(Integer patrocinadorId) {
+        if (!patrocinadorRepository.existsById(patrocinadorId)) {
+            throw new EntityNotFoundException("Patrocinador com ID " + patrocinadorId + " não encontrado");
+        }
+        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
     }
 
     /*
     ======================== MÉTODOS PARA PUXAR DE OUTRA API ========================
      */
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadoresRecebidos() {
+    public List<PatrocinadorDTOResponse> listarPatrocinadoresRemotamente() {
         return patrocinadorGamesFeignClient.listarPatrocinadoresRecebidos();
     }
 
-    @Transactional
-    public PatrocinadorDTOResponse criarPatrocinadorEnviar(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        patrocinadorRepository.save(patrocinador);
+    public PatrocinadorDTOResponse listarPatrocinadorPorIdRemotamente(Integer patrocinadorId) {
+        PatrocinadorDTOResponse patrocinadorRecebido = patrocinadorGamesFeignClient.findById(patrocinadorId);
 
-        PatrocinadorDTOResponse patrocinadorRecebido = patrocinadorGamesFeignClient.criarPatrocinadorEnviar(patrocinadorDTORequest);
         return patrocinadorRecebido;
+    }
+
+    public PatrocinadorDTOResponse criarPatrocinadorRemotamente(PatrocinadorDTORequest patrocinadorDTORequest) {
+
+        PatrocinadorDTOResponse patrocinadorCriadoRemotamente = patrocinadorGamesFeignClient.criarPatrocinadorEnviar(patrocinadorDTORequest);
+
+        return patrocinadorCriadoRemotamente;
+    }
+
+    public PatrocinadorDTOResponse editarPatrocinadorPorIdRemotamente(
+            Integer patrocinadorId,
+            PatrocinadorDTORequest patrocinadorAtualizarDTORequest
+    ) {
+        PatrocinadorDTOResponse patrocinadorAtualizadoRemotamente = patrocinadorGamesFeignClient.editarPatrocinadorRecebidoPorId(
+                patrocinadorId, patrocinadorAtualizarDTORequest
+        );
+
+
+        return patrocinadorAtualizadoRemotamente;
+    }
+
+    public void deletarPatrocinadorPorIdRemotamente(Integer patrocinadorId) {
+        patrocinadorGamesFeignClient.deletarPatrocinadorEnviar(patrocinadorId);
+
     }
 
 }
