@@ -23,9 +23,24 @@ public class JogoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public JogoService(JogoRepository jogoRepository, CategoriaRepository categoriaRepository) {
+    public JogoService(
+            JogoRepository jogoRepository,
+            CategoriaRepository categoriaRepository
+    ) {
         this.jogoRepository = jogoRepository;
         this.categoriaRepository = categoriaRepository;
+    }
+
+    public List<JogoDTOResponse> listarJogos() {
+        List<Jogo> jogos = jogoRepository.listarJogos();
+        return jogos.stream()
+                .map(jogo -> modelMapper.map(jogo, JogoDTOResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public JogoDTOResponse listarJogoPorId(Integer jogoId) {
+        Jogo jogo = jogoRepository.obterJogoPeloId(jogoId);
+        return modelMapper.map(jogo, JogoDTOResponse.class);
     }
 
     @Transactional
@@ -43,26 +58,10 @@ public class JogoService {
         return modelMapper.map(jogoSalvo, JogoDTOResponse.class);
     }
 
-    public List<JogoDTOResponse> listarJogos() {
-        List<Jogo> jogos = jogoRepository.listarJogos();
-        return jogos.stream()
-                .map(jogo -> modelMapper.map(jogo, JogoDTOResponse.class))
-                .collect(Collectors.toList());
-    }
-
-    public JogoDTOResponse listarPorJogoId(Integer jogoId) {
-        Jogo jogo = jogoRepository.obterJogoPeloId(jogoId);
-        return modelMapper.map(jogo, JogoDTOResponse.class);
-    }
     @Transactional
-    public void deletarPorJogoId(Integer jogoId) {
-        if (!jogoRepository.existsById(jogoId)) {
-            throw new EntityNotFoundException("Jogo com ID " + jogoId + " não encontrado");
-        }
-        jogoRepository.apagadoLogicoJogo(jogoId);
-    }
-    @Transactional
-    public JogoDTOResponse editarPorJogoId(Integer jogoId, JogoDTORequest jogoDTORequest) {
+    public JogoDTOResponse editarJogoPorId(
+            Integer jogoId, JogoDTORequest jogoDTORequest
+    ) {
         return jogoRepository.findById(jogoId)
                 .map(jogoExistente -> {
                     // Atualiza apenas os campos que foram fornecidos no DTO
@@ -82,5 +81,13 @@ public class JogoService {
                     return modelMapper.map(jogoAtualizado, JogoDTOResponse.class);
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Jogo não encontrado com id " + jogoId));
+    }
+
+    @Transactional
+    public void deletarJogoPorId(Integer jogoId) {
+        if (!jogoRepository.existsById(jogoId)) {
+            throw new EntityNotFoundException("Jogo com ID " + jogoId + " não encontrado");
+        }
+        jogoRepository.apagadoLogicoJogo(jogoId);
     }
 }

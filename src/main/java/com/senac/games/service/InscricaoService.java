@@ -26,11 +26,28 @@ public class InscricaoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public InscricaoService(ParticipanteRepository participanteRepository, JogoRepository jogoRepository, InscricaoRepository inscricaoRepository) {
+    public InscricaoService(
+            ParticipanteRepository participanteRepository,
+            JogoRepository jogoRepository,
+            InscricaoRepository inscricaoRepository
+    ) {
         this.participanteRepository = participanteRepository;
         this.jogoRepository = jogoRepository;
         this.inscricaoRepository = inscricaoRepository;
     }
+
+    public List<InscricaoDTOResponse> listarInscricoesAtivos() {
+        List<Inscricao> inscricoes = inscricaoRepository.listarInscricoes();
+        return inscricoes.stream()
+                .map(inscricao -> modelMapper.map(inscricao, InscricaoDTOResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public InscricaoDTOResponse listarPorInscricaoId(Integer inscricaoId) {
+        Inscricao inscricao = inscricaoRepository.obterInscricaoPeloId(inscricaoId);
+        return modelMapper.map(inscricao, InscricaoDTOResponse.class);
+    }
+
     @Transactional
     public InscricaoDTOResponse criarInscricao(InscricaoDTORequest inscricaoDTORequest) {
         Inscricao inscricao = new Inscricao();
@@ -51,27 +68,10 @@ public class InscricaoService {
         return modelMapper.map(inscricaoSalva, InscricaoDTOResponse.class);
     }
 
-
-    public List<InscricaoDTOResponse> listarInscricoesAtivos() {
-        List<Inscricao> inscricoes = inscricaoRepository.listarInscricoes();
-        return inscricoes.stream()
-                .map(inscricao -> modelMapper.map(inscricao, InscricaoDTOResponse.class))
-                .collect(Collectors.toList());
-    }
-
-    public InscricaoDTOResponse listarPorInscricaoId(Integer inscricaoId) {
-        Inscricao inscricao = inscricaoRepository.obterInscricaoPeloId(inscricaoId);
-        return modelMapper.map(inscricao, InscricaoDTOResponse.class);
-    }
     @Transactional
-    public void deletarPorInscricaoId(Integer inscricaoId) {
-        if (!inscricaoRepository.existsById(inscricaoId)) {
-            throw new EntityNotFoundException("Inscricao com ID " + inscricaoId + " não encontrado");
-        }
-        inscricaoRepository.apagadoLogicoInscricao(inscricaoId);
-    }
-    @Transactional
-    public InscricaoDTOResponse editarPorInscricaoId(Integer inscricaoId, InscricaoDTORequest inscricaoDTORequest) {
+    public InscricaoDTOResponse editarInscricaoPorId(
+            Integer inscricaoId, InscricaoDTORequest inscricaoDTORequest
+    ) {
         return inscricaoRepository.findById(inscricaoId)
                 .map(inscricaoExistente -> {
                     // Atualiza apenas os campos que foram fornecidos no DTO
@@ -81,5 +81,13 @@ public class InscricaoService {
                     return modelMapper.map(inscricaoAtualizado, InscricaoDTOResponse.class);
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Inscricao não encontrado com id " + inscricaoId));
+    }
+
+    @Transactional
+    public void deletarInscricaoPorId(Integer inscricaoId) {
+        if (!inscricaoRepository.existsById(inscricaoId)) {
+            throw new EntityNotFoundException("Inscricao com ID " + inscricaoId + " não encontrado");
+        }
+        inscricaoRepository.apagadoLogicoInscricao(inscricaoId);
     }
 }

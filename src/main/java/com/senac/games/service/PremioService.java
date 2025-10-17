@@ -30,6 +30,12 @@ public class PremioService {
                 .map(premio -> modelMapper.map(premio, PremioDTOResponse.class))
                 .collect(Collectors.toList());
     }
+
+    public PremioDTOResponse listarPremioPorId(Integer premioId) {
+        Premio premio = premioRepository.obterPremioPeloId(premioId);
+        return modelMapper.map(premio, PremioDTOResponse.class);
+    }
+
     @Transactional
     public PremioDTOResponse criarPremio(PremioDTORequest premioDTORequest) {
         Premio premio = modelMapper.map(premioDTORequest, Premio.class);
@@ -37,19 +43,10 @@ public class PremioService {
         return modelMapper.map(premioSalvo, PremioDTOResponse.class);
     }
 
-    public PremioDTOResponse listarPorPremioId(Integer premioId) {
-        Premio premio = premioRepository.obterPremioPeloId(premioId);
-        return modelMapper.map(premio, PremioDTOResponse.class);
-    }
     @Transactional
-    public void deletarPorPremioId(Integer premioId) {
-        if (!premioRepository.existsById(premioId)) {
-            throw new EntityNotFoundException("Prêmio com ID " + premioId + " não encontrado");
-        }
-        premioRepository.apagadoLogicoPremio(premioId);
-    }
-    @Transactional
-    public PremioDTOResponse editarPorPremioId(Integer premioId, PremioDTORequest premioDTORequest) {
+    public PremioDTOResponse editarPremioPorId(
+            Integer premioId, PremioDTORequest premioDTORequest
+    ) {
         return premioRepository.findById(premioId)
                 .map(premioExistente -> {
                     // Atualiza apenas os campos que foram fornecidos no DTO
@@ -60,4 +57,13 @@ public class PremioService {
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Prêmio não encontrado com id " + premioId));
     }
+
+    @Transactional
+    public void deletarPremioPorId(Integer premioId) {
+        if (!premioRepository.existsById(premioId)) {
+            throw new EntityNotFoundException("Prêmio com ID " + premioId + " não encontrado");
+        }
+        premioRepository.apagadoLogicoPremio(premioId);
+    }
+
 }

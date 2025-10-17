@@ -25,6 +25,18 @@ public class ParticipanteService {
         this.participanteRepository = participanteRepository;
     }
 
+    public List<ParticipanteDTOResponse> listarParticipantesAtivos() {
+        List<Participante> participantes = participanteRepository.listarParicipantes();
+        return participantes.stream()
+                .map(participante -> modelMapper.map(participante, ParticipanteDTOResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public ParticipanteDTOResponse listarParticipantePorId(Integer participanteId) {
+        Participante participante = this.participanteRepository.obterParticipantePeloId(participanteId);
+        return modelMapper.map(participante, ParticipanteDTOResponse.class);
+    }
+
     @Transactional
     public ParticipanteDTOResponse criarParticipante(ParticipanteDTORequest participanteDTORequest) {
         Participante participante = modelMapper.map(participanteDTORequest, Participante.class);
@@ -34,19 +46,10 @@ public class ParticipanteService {
 
     }
 
-    public List<ParticipanteDTOResponse> listarParticipantesAtivos() {
-        List<Participante> participantes = participanteRepository.listarParicipantes();
-        return participantes.stream()
-                .map(participante -> modelMapper.map(participante, ParticipanteDTOResponse.class))
-                .collect(Collectors.toList());
-    }
-
-    public ParticipanteDTOResponse listarPorParticipanteId(Integer participanteId) {
-        Participante participante = this.participanteRepository.obterParticipantePeloId(participanteId);
-        return modelMapper.map(participante, ParticipanteDTOResponse.class);
-    }
     @Transactional
-    public ParticipanteDTOResponse editarPorParticipanteId(Integer participanteId, ParticipanteDTORequest participanteDTORequest) {
+    public ParticipanteDTOResponse editarParticipantePorId(
+            Integer participanteId, ParticipanteDTORequest participanteDTORequest
+    ) {
         //ante de atualizar busca o registro para atualizar
         Participante participanteBuscado = this.participanteRepository.obterParticipantePeloId(participanteId);
 
@@ -64,7 +67,10 @@ public class ParticipanteService {
 
     }
     @Transactional
-    public ParticipanteDTOUpdateResponse atualizarStatusParticipante(Integer participanteId, ParticipanteDTOUpdateRequest participanteDTOUpdateRequest){
+    public ParticipanteDTOUpdateResponse editarStatusParticipante(
+            Integer participanteId,
+            ParticipanteDTOUpdateRequest participanteDTOUpdateRequest
+    ) {
 
         Participante participanteBuscado = this.participanteRepository.obterParticipantePeloId(participanteId);
         participanteBuscado.setStatus(participanteDTOUpdateRequest.getStatus());
@@ -75,7 +81,7 @@ public class ParticipanteService {
 
     }
     @Transactional
-    public void apagarParticipante(Integer participanteId){
+    public void deletarParticipantePorId(Integer participanteId) {
         participanteRepository.apagadoLogicoParticipante(participanteId);
     }
 }

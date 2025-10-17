@@ -32,6 +32,16 @@ public class CategoriaService {
                 .collect(Collectors.toList());
     }
 
+    public CategoriaDTOResponse listarCategoriaPorId(Integer categoriaId) {
+        Categoria categoria = categoriaRepository.obterCategoriaPeloId(categoriaId);
+
+        if (categoria == null) {
+            throw new RuntimeException("Categoria não encontrada com ID: " + categoriaId);
+        }
+
+        return modelMapper.map(categoria, CategoriaDTOResponse.class);
+    }
+
     public CategoriaDTOResponse criarCategoria(CategoriaDTORequest categoriaDTORequest) {
         Categoria categoria = modelMapper.map(categoriaDTORequest, Categoria.class);
         Categoria categoriaSave = this.categoriaRepository.save(categoria);
@@ -40,14 +50,9 @@ public class CategoriaService {
 
     }
 
-    public void apagarCategoria(Integer categoriaId) {
-        if (!categoriaRepository.existsById(categoriaId)) {
-            throw new EntityNotFoundException("Categoria não encontrada com ID: " + categoriaId);
-        }
-        categoriaRepository.apagadoLogicoCategoria(categoriaId);
-    }
-
-    public CategoriaDTOResponse editarPorCategoriaId(Integer categoriaId, CategoriaDTORequest categoriaDTORequest) {
+    public CategoriaDTOResponse editarCategoriaPorId(
+            Integer categoriaId, CategoriaDTORequest categoriaDTORequest
+    ) {
         return categoriaRepository.findById(categoriaId)
                 .map(categoriaExistente -> {
                     // Atualiza apenas os campos que foram fornecidos no DTO
@@ -59,13 +64,10 @@ public class CategoriaService {
                 .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrado com id " + categoriaId));
     }
 
-    public CategoriaDTOResponse listarPorCategoriaId(Integer categoriaId) {
-        Categoria categoria = categoriaRepository.obterCategoriaPeloId(categoriaId);
-
-        if (categoria == null) {
-            throw new RuntimeException("Categoria não encontrada com ID: " + categoriaId);
+    public void apagarCategoria(Integer categoriaId) {
+        if (!categoriaRepository.existsById(categoriaId)) {
+            throw new EntityNotFoundException("Categoria não encontrada com ID: " + categoriaId);
         }
-
-        return modelMapper.map(categoria, CategoriaDTOResponse.class);
+        categoriaRepository.apagadoLogicoCategoria(categoriaId);
     }
 }

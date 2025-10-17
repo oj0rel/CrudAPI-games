@@ -2,7 +2,6 @@ package com.senac.games.controller;
 
 import com.senac.games.dto.request.categoria.CategoriaDTORequest;
 import com.senac.games.dto.response.categoria.CategoriaDTOResponse;
-import com.senac.games.entity.Categoria;
 import com.senac.games.service.CategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,48 +23,57 @@ public class CategoriaController {private CategoriaService categoriaService;
     }
 
     @GetMapping("/listar")
-    @Operation(summary="Listar categorias", description="Endpoint para listar todas as categorias")
+    @Operation(summary="Listar Categorias", description="Endpoint para listar todas as Categorias.")
     public ResponseEntity<List<CategoriaDTOResponse>> listarCategorias(){
         return ResponseEntity.ok(categoriaService.listarCategoriasAtivas());
     }
 
-    @PostMapping ("/criar")
-    @Operation(summary="Criar categorias", description="Endpoint para listar todas as categorias")
-    public ResponseEntity<CategoriaDTOResponse> criarCategoria(@Valid @RequestBody CategoriaDTORequest categoria){
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.criarCategoria(categoria));
-    }
-
-    @GetMapping("/listarPorCategoriaId/{categoriaId}")
-    @Operation(summary="Listar categoria pelo id de categoria", description="Endpoint para listar o categoria pelo id")
-    public ResponseEntity <CategoriaDTOResponse> listarPorCategoriaId(@PathVariable Integer categoriaId) {
+    @GetMapping("/listarCategoriaPorId/{categoriaId}")
+    @Operation(summary="Listar Categoria pelo ID", description="Endpoint para listar a Categoria pelo ID.")
+    public ResponseEntity <CategoriaDTOResponse> listarCategoriaPorId(
+            @PathVariable Integer categoriaId
+    ) {
         try{
-            CategoriaDTOResponse categoria = categoriaService.listarPorCategoriaId(categoriaId);
+            CategoriaDTOResponse categoria = categoriaService.listarCategoriaPorId(categoriaId);
             return ResponseEntity.ok(categoria);
         }catch(EntityNotFoundException e){
             return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping("/deletarPorCategoriaId/{categoriaId}")
-    @Operation(summary="Deletar categoria pelo id da categoria", description="Endpoint para deletar categoria pelo id")
-    public ResponseEntity<Void> deletarPorCategoriaId(@PathVariable Integer categoriaId) {
+    @PostMapping ("/criar")
+    @Operation(summary="Criar Categoria", description="Endpoint para criar uma Categoria.")
+    public ResponseEntity<CategoriaDTOResponse> criarCategoria(
+            @Valid
+            @RequestBody CategoriaDTORequest categoria
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.criarCategoria(categoria));
+    }
+
+    @PutMapping("/editarCategoriaPorId/{categoriaId}")
+    @Operation(summary="Editar Categoria por ID", description="Endpoint para editar Categoria por id")
+    public ResponseEntity<CategoriaDTOResponse> editarCategoriaPorId(
+            @PathVariable Integer categoriaId,
+            @RequestBody CategoriaDTORequest categoriaDTORequest
+    ) {
+        try {
+            CategoriaDTOResponse categoriaAtualizada = categoriaService.editarCategoriaPorId(categoriaId, categoriaDTORequest);
+            return ResponseEntity.ok(categoriaAtualizada); // 200 OK com a categoria atualizada
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build(); // 404 se não achar a categoria
+        }
+    }
+
+    @DeleteMapping("/deletarCategoriaPorId/{categoriaId}")
+    @Operation(summary="Deletar Categoria por ID", description="Endpoint para deletar Categoria pelo ID.")
+    public ResponseEntity<Void> deletarCategoriaPorId(
+            @PathVariable Integer categoriaId
+    ) {
         try {
             categoriaService.apagarCategoria(categoriaId);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/editarPorCategoriaId/{categoriaId}")
-    @Operation(summary="Editar categoria pelo id da categoria", description="Endpoint para deletar categoria pelo id")
-    public ResponseEntity<CategoriaDTOResponse> editarPorCategoriaId(@PathVariable Integer categoriaId,
-                                                                     @RequestBody CategoriaDTORequest categoriaDTORequest) {
-        try {
-            CategoriaDTOResponse categoriaAtualizada = categoriaService.editarPorCategoriaId(categoriaId, categoriaDTORequest);
-            return ResponseEntity.ok(categoriaAtualizada); // 200 OK com a categoria atualizada
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build(); // 404 se não achar a categoria
         }
     }
 }
