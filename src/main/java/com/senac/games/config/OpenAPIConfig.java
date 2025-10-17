@@ -17,9 +17,8 @@ public class OpenAPIConfig {
 
         // Define as informações gerais da sua API
         Info info = new Info()
-                .title("API do Projeto Vitta")
-                .version("1.0")
-                .description("API para gestão pessoal de medicamentos, auxiliando usuários no controle de horários, dosagens e histórico de uso.");
+                .title("API do Projeto Games")
+                .version("1.0");
 
         // Define o esquema de segurança (JWT Bearer Token)
         SecurityScheme securityScheme = new SecurityScheme()
